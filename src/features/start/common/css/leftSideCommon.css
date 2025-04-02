@@ -1,0 +1,42 @@
+.left-title {
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+
+.left-input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 500px;
+}
+
+.left-main-link {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 400;
+    color: #2618B1;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+
+    &:hover {
+        color: #022446;
+        transform: scale(1.04);
+    }
+}
+
+.left-sub-link {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2618B1;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+
+    &:hover {
+        color: #022446;
+        transform: scale(1.04);
+    }
+}
