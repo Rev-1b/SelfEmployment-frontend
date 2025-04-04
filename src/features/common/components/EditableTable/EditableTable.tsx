@@ -41,11 +41,11 @@ const EditableTable = <T extends TableRecord>({
         handleEditChange,
         handleDeleteClick,
         handleConfirmDelete,
+        handleCancelDelete,
         handleCancelAdd,
         handleCancelEdit,
-        handleCancelDelete
     } = useEditableTable({
-        initialRecords: records,
+        records,
         emptyRecord: {} as Omit<T, 'id'>,
         onAdd,
         onEdit,
@@ -89,6 +89,7 @@ const EditableTable = <T extends TableRecord>({
                                         <TextField
                                             value={newRecord[column.field as keyof Omit<T, 'id'>] || ''}
                                             onChange={(e) => handleRecordChange(column.field as keyof Omit<T, 'id'>, e.target.value)}
+                                            size="small"
                                         />
                                     </TableCell>
                                 ))}
@@ -114,6 +115,7 @@ const EditableTable = <T extends TableRecord>({
                                                     type='standart'
                                                     value={editingRecord[column.field] || ''}
                                                     onChange={(e) => handleEditChange(column.field, e.target.value)}
+                                                    size="small"
                                                 />
                                             </TableCell>
                                         ))}
@@ -128,7 +130,6 @@ const EditableTable = <T extends TableRecord>({
                                             </IconButton>
                                         </TableCell>
                                     </>
-
                                 ) : (
                                     <>
                                         {columns.map((column) => (
@@ -154,7 +155,7 @@ const EditableTable = <T extends TableRecord>({
                 </Table>
             </TableContainer>
 
-            <ItemDeleteDialog 
+            <ItemDeleteDialog
                 deleteDialogOpen={deleteDialogOpen}
                 handleConfirmDelete={handleConfirmDelete}
                 handleCancelDelete={handleCancelDelete}

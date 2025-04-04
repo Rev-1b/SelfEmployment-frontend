@@ -13,7 +13,7 @@ const ProfilePage: FC = () => {
         <ContentBox>
             <HeadNavButton
                 label="Профиль"
-                state="active" 
+                state="active"
             />
             <Box>
                 <PersonalInfo />

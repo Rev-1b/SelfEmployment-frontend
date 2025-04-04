@@ -1,11 +1,12 @@
 export interface TableRecord {
-    id: number;
+    id: string | number;
     [key: string]: any;
 }
 
 export interface TableColumn {
     field: string;
     headerName: string;
+    width?: number;
 }
 
 export interface EditableTableProps<T extends TableRecord> {
@@ -13,7 +14,7 @@ export interface EditableTableProps<T extends TableRecord> {
     records: T[];
     onAdd: (record: Omit<T, 'id'>) => Promise<void>;
     onEdit: (record: T) => Promise<void>;
-    onDelete: (id: number) => Promise<void>;
+    onDelete: (id: string | number) => Promise<void>;
 }
 
 export interface EditFormProps<T extends TableRecord> {

@@ -2,27 +2,26 @@ import { useState } from 'react';
 import { TableRecord } from '../types.ts';
 
 export interface UseEditableTableProps<T extends TableRecord> {
-    initialRecords: T[];
+    records: T[];
     emptyRecord: Omit<T, 'id'>;
     onAdd: (record: Omit<T, 'id'>) => Promise<void>;
     onEdit: (record: T) => Promise<void>;
-    onDelete: (id: number) => Promise<void>;
+    onDelete: (id: string | number) => Promise<void>;
 }
 
 export const useEditableTable = <T extends TableRecord>({
-    initialRecords,
+    records,
     emptyRecord,
     onAdd,
     onEdit,
     onDelete
 }: UseEditableTableProps<T>) => {
-    const [records, setRecords] = useState<T[]>(initialRecords);
     const [isAdding, setIsAdding] = useState(false);
     const [newRecord, setNewRecord] = useState<Omit<T, 'id'>>(emptyRecord);
-    const [editingId, setEditingId] = useState<number | null>(null);
+    const [editingId, setEditingId] = useState<string | number | null>(null);
     const [editingRecord, setEditingRecord] = useState<T | null>(null);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [recordToDelete, setRecordToDelete] = useState<number | null>(null);
+    const [recordToDelete, setRecordToDelete] = useState<string | number | null>(null);
 
     const handleAdd = async () => {
         try {
@@ -41,8 +40,10 @@ export const useEditableTable = <T extends TableRecord>({
         }));
     };
 
-    const handleEdit = (id: number) => {
-        const recordToEdit = records.find(record => record.id === id);
+    const handleEdit = (id: string | number) => {
+        const idStr = id.toString();
+        const recordToEdit = records.find(record => record.id.toString() === idStr);
+
         if (recordToEdit) {
             setEditingId(id);
             setEditingRecord(recordToEdit);
@@ -68,7 +69,7 @@ export const useEditableTable = <T extends TableRecord>({
         } : prev);
     };
 
-    const handleDeleteClick = (id: number) => {
+    const handleDeleteClick = (id: string | number) => {
         setRecordToDelete(id);
         setDeleteDialogOpen(true);
     };
@@ -100,16 +101,17 @@ export const useEditableTable = <T extends TableRecord>({
         handleEditChange,
         handleDeleteClick,
         handleConfirmDelete,
+        handleCancelDelete: () => {
+            setDeleteDialogOpen(false);
+            setRecordToDelete(null);
+        },
         handleCancelAdd: () => {
             setIsAdding(false);
+            setNewRecord(emptyRecord);
         },
         handleCancelEdit: () => {
             setEditingId(null);
             setEditingRecord(null);
-        },
-        handleCancelDelete: () => {
-            setDeleteDialogOpen(false);
-            setRecordToDelete(null);
         }
     };
 }; 
